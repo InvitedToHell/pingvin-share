@@ -13,6 +13,8 @@ Pingvin Share is a self-hosted file sharing platform and an alternative for WeTr
 - Set an expiration date for shares
 - Secure shares with visitor limits and passwords
 - Email recipients
+- Reverse shares
+- OIDC and LDAP authentication
 - Integration with ClamAV for security scans
 
 ## 🐧 Get to know Pingvin Share
@@ -31,6 +33,19 @@ Pingvin Share is a self-hosted file sharing platform and an alternative for WeTr
 
 The website is now listening on `http://localhost:3000`, have fun with Pingvin Share 🐧!
 
+> [!TIP]
+> Checkout [Pocket ID](https://github.com/stonith404/pocket-id), a user-friendly OIDC provider that lets you easily log in to services like Pingvin Share using Passkeys.
+
 ## 📚 Documentation
 
 For more installation options and advanced configurations, please refer to the [documentation](https://stonith404.github.io/pingvin-share).
+
+## 🖤 Contribute
+
+We would love it if you want to help make Pingvin Share better! You can either [help to translate](https://stonith404.github.io/pingvin-share/help-out/translate) Pingvin Share or [contribute to the codebase](https://stonith404.github.io/pingvin-share/help-out/contribute).
+
+## ❤️ Sponsors
+
+Thank you for supporting Pingvin Share 🙏
+
+- [@COMPLEXWASTAKEN](https://github.com/COMPLEXWASTAKEN)
