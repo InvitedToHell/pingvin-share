@@ -40,6 +40,8 @@ model RefreshToken {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  oauthIDToken  String? // prefixed with the ID of the issuing OAuth provider, separated by a colon
 }
 
 model LoginToken {
@@ -93,6 +95,7 @@ model Share {
   security   ShareSecurity?
   recipients ShareRecipient[]
   files      File[]
+  storageProvider String @default("LOCAL")
 }
 
 model ReverseShare {

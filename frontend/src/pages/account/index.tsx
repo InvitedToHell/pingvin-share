@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Center,
   Container,
@@ -14,7 +15,7 @@ import {
 import { useForm, yupResolver } from "@mantine/form";
 import { useModals } from "@mantine/modals";
 import { useEffect, useState } from "react";
-import { Tb2Fa } from "react-icons/tb";
+import { TbAuth2Fa } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 import * as yup from "yup";
 import Meta from "../../components/Meta";
@@ -142,6 +143,9 @@ const Account = () => {
         <Paper withBorder p="xl">
           <Title order={5} mb="xs">
             <FormattedMessage id="account.card.info.title" />
+            {user?.isLdap ? (
+              <Badge style={{ marginLeft: "1em" }}>LDAP</Badge>
+            ) : null}
           </Title>
           <form
             onSubmit={accountForm.onSubmit((values) =>
@@ -162,13 +166,16 @@ const Account = () => {
               />
               <TextInput
                 label={t("account.card.info.email")}
+                disabled={user?.isLdap}
                 {...accountForm.getInputProps("email")}
               />
-              <Group position="right">
-                <Button type="submit">
-                  <FormattedMessage id="common.button.save" />
-                </Button>
-              </Group>
+              {!user?.isLdap && (
+                <Group position="right">
+                  <Button type="submit">
+                    <FormattedMessage id="common.button.save" />
+                  </Button>
+                </Group>
+              )}
             </Stack>
           </form>
         </Paper>
@@ -272,10 +279,7 @@ const Account = () => {
                     ) : (
                       <Button
                         component="a"
-                        href={getOAuthUrl(
-                          config.get("general.appUrl"),
-                          provider,
-                        )}
+                        href={getOAuthUrl(window.location.origin, provider)}
                       >
                         {t("account.card.oauth.link")}
                       </Button>
@@ -293,7 +297,7 @@ const Account = () => {
 
           <Tabs defaultValue="totp">
             <Tabs.List>
-              <Tabs.Tab value="totp" icon={<Tb2Fa size={14} />}>
+              <Tabs.Tab value="totp" icon={<TbAuth2Fa size={14} />}>
                 TOTP
               </Tabs.Tab>
             </Tabs.List>
@@ -407,8 +411,10 @@ const Account = () => {
                   },
                   confirmProps: { color: "red" },
                   onConfirm: async () => {
-                    await userService.removeCurrentUser();
-                    window.location.reload();
+                    await userService
+                      .removeCurrentUser()
+                      .then(() => window.location.reload())
+                      .catch(toast.axiosError);
                   },
                 })
               }

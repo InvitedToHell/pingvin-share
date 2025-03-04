@@ -70,7 +70,10 @@ export abstract class GenericOidcProvider implements OAuthProvider<OidcToken> {
       new URLSearchParams({
         client_id: this.config.get(`oauth.${this.name}-clientId`),
         response_type: "code",
-        scope: "openid profile email",
+        scope:
+          this.name == "oidc"
+            ? this.config.get(`oauth.oidc-scope`)
+            : "openid email profile",
         redirect_uri: this.getRedirectUri(),
         state,
         nonce,
@@ -197,6 +200,7 @@ export abstract class GenericOidcProvider implements OAuthProvider<OidcToken> {
       providerId: idTokenData.sub,
       providerUsername: username,
       ...(isAdmin !== undefined && { isAdmin }),
+      idToken: `${this.name}:${token.idToken}`,
     };
   }
 
@@ -251,6 +255,8 @@ export interface OidcConfiguration {
   id_token_signing_alg_values_supported: string[];
   scopes_supported?: string[];
   claims_supported?: string[];
+  frontchannel_logout_supported?: boolean;
+  end_session_endpoint?: string;
 }
 
 export interface OidcJwk {

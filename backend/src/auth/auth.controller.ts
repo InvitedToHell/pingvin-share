@@ -120,7 +120,7 @@ export class AuthController {
   })
   @HttpCode(202)
   async requestResetPassword(@Param("email") email: string) {
-    this.authService.requestResetPassword(email);
+    await this.authService.requestResetPassword(email);
   }
 
   @Post("resetPassword")
@@ -172,13 +172,25 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    await this.authService.signOut(request.cookies.access_token);
-    response.cookie("access_token", "accessToken", { maxAge: -1 });
+    const redirectURI = await this.authService.signOut(
+      request.cookies.access_token,
+    );
+
+    const isSecure = this.config.get("general.secureCookies");
+    response.cookie("access_token", "", {
+      maxAge: -1,
+      secure: isSecure,
+    });
     response.cookie("refresh_token", "", {
       path: "/api/auth/token",
       httpOnly: true,
       maxAge: -1,
+      secure: isSecure,
     });
+
+    if (typeof redirectURI === "string") {
+      return { redirectURI: redirectURI.toString() };
+    }
   }
 
   @Post("totp/enable")

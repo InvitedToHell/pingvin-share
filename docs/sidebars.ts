@@ -38,6 +38,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "setup/s3",
+        },
+        {
+          type: "doc",
           id: "setup/upgrading",
         },
       ],
@@ -55,6 +59,11 @@ const sidebars: SidebarsConfig = {
           id: "help-out/contribute",
         },
       ],
+    },
+    {
+      type: "link",
+      label: "Demo",
+      href: "https://pingvin-share.dev.eliasschneider.com",
     },
     {
       type: "link",

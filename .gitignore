@@ -7,6 +7,9 @@ node_modules
 /frontend/.next/
 /frontend/out/
 
+# yarn
+yarn.lock
+
 # build
 build/
 dist/
@@ -41,6 +44,7 @@ yarn-error.log*
 /docs/build/
 /docs/.docusaurus
 /docs/.cache-loader
+/config.yaml
 
 # Jetbrains specific (webstorm)
 .idea/**/**
